@@ -1,5 +1,7 @@
-## traffic-lights app
-## Second attempt
+## Weather-App
+
+## Still in development
+
 
 
 # Getting Started with Create React App
