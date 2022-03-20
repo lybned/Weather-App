@@ -1,4 +1,5 @@
 ## traffic-lights app
+## Second attempt
 
 
 # Getting Started with Create React App
