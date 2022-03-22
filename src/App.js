@@ -2,22 +2,24 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
+
+  const d = new Date();
+  const date = (d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <body>
+        <div className="search">
+          <input type="test" placeholder="location..." className="search-bar"/>
+        </div>
+
+        <div className="box">
+          <div className="CityName">Calgary, Alberta</div>
+          <div className="Date">{date}</div>
+          <div className="Temperature">23&deg;C</div>
+          <div className="Weather">Sunny</div>
+
+        </div>
+      </body>
     </div>
   );
 }
