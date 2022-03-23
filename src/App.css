@@ -52,6 +52,26 @@ body{
   font-weight: bolder;
   text-shadow:  3px 3px #000000;
 }
+
+.future{
+  text-align: center;
+}
+
+.future .WeatherIcon{
+  display: inline-block ;
+  height : 50px;
+  width: 50px;
+}
+
+
+.future .futureWeather {
+  border: 0px solid #466995 ;
+  margin: 10px ;
+  display: inline-block ;
+  text-align: right;
+
+}
+
 /*
 .App-logo {
   height: 40vmin;
