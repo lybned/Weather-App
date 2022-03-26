@@ -61,6 +61,7 @@ body{
   display: inline-block ;
   height : 50px;
   width: 50px;
+  float: left;
 }
 
 
@@ -70,6 +71,15 @@ body{
   display: inline-block ;
   text-align: right;
 
+}
+
+
+h6 {
+  float: left;
+}
+
+h7 {
+  float: left;
 }
 
 /*
