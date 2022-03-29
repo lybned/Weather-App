@@ -1,23 +1,40 @@
 import logo from './logo.svg';
 import './App.css';
-
+import React, {useState} from 'react';
 const api = {
   key: "cfa8c73e2907c00dc78b1876f7c5a97a",
-  url: "https://api.openweathermap.org/data/2.5/weather"
+  url_Weather: "https://api.openweathermap.org/data/2.5/weather",
+  url_Location: "https://api.openweathermap.org/geo/1.0/direct"
 }
 
 {/* Sample Query: https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key} */}
 
 function App() {
-
+  let latitude;
+  let magnitude;
   const d = new Date();
   const datelist = [(d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear(), 
                     (d.getMonth()+1) + "/" + (d.getDate()+1) + "/" + d.getFullYear(),
                     (d.getMonth()+1) + "/" + (d.getDate()+2) + "/" + d.getFullYear(),
                     (d.getMonth()+1) + "/" + (d.getDate()+3) + "/" + d.getFullYear(),
                     (d.getMonth()+1) + "/" + (d.getDate()+4) + "/" + d.getFullYear()];
+  console.log(`${api.url_Location}?q=Calgary&limit=5&appid=${api.key}`);
+  fetch(`${api.url_Location}?q=Calgary&limit=5&appid=${api.key}`)
+  .then(response => response.json())
+  .then(data => {
+    latitude = data[0]["lat"];
+    magnitude = data[0]["lon"];
+  });
 
-  
+
+  console.log(`${api.url_Weather}?lat=${latitude}&lon=${magnitude}&appid=${api.key}`);
+  fetch(`${api.url_Weather}?lat=${latitude}&lon=${magnitude}&appid=${api.key}`)
+  .then(response => response.json())
+  .then(data => {
+    console.log(data)
+  });
+    
+
   return (
     <div>
       <body>
