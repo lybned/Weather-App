@@ -10,28 +10,49 @@ const api = {
 {/* Sample Query: https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key} */}
 
 function App() {
-  let latitude;
-  let magnitude;
+  //let latitude;
+  //let magnitude;
+
+  const [latitude, setLatitude] = useState(0);
+  const [magnitude, setMagnitude] = useState(0);
+  const [temperature,setTemp] = useState(0);
+
+  function changeLat(location) {
+    setLatitude(location)
+  }
+
+  function changeMag(location) {
+    setMagnitude(location)
+  }
+
+  function changeTemp(degrees) {
+    setTemp(degrees)
+  }  
+
   const d = new Date();
   const datelist = [(d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear(), 
                     (d.getMonth()+1) + "/" + (d.getDate()+1) + "/" + d.getFullYear(),
                     (d.getMonth()+1) + "/" + (d.getDate()+2) + "/" + d.getFullYear(),
                     (d.getMonth()+1) + "/" + (d.getDate()+3) + "/" + d.getFullYear(),
                     (d.getMonth()+1) + "/" + (d.getDate()+4) + "/" + d.getFullYear()];
-  console.log(`${api.url_Location}?q=Calgary&limit=5&appid=${api.key}`);
+
+  {/* API call to the information for the location */}
+  //console.log(`${api.url_Location}?q=Calgary&limit=5&appid=${api.key}`);
   fetch(`${api.url_Location}?q=Calgary&limit=5&appid=${api.key}`)
   .then(response => response.json())
   .then(data => {
-    latitude = data[0]["lat"];
-    magnitude = data[0]["lon"];
+    changeLat(data[0]["lat"]);
+    changeMag(data[0]["mag"]);
   });
 
 
-  console.log(`${api.url_Weather}?lat=${latitude}&lon=${magnitude}&appid=${api.key}`);
+  //console.log(`${api.url_Weather}?lat=${latitude}&lon=${magnitude}&appid=${api.key}`);
   fetch(`${api.url_Weather}?lat=${latitude}&lon=${magnitude}&appid=${api.key}`)
   .then(response => response.json())
   .then(data => {
-    console.log(data)
+    console.log(data);
+    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + data["main"]["temp"]);
+    changeTemp(data["main"]["temp"]);
   });
     
 
@@ -45,7 +66,7 @@ function App() {
         <div className="box">
           <div className="CityName">Calgary, Alberta</div>
           <div className="Date">{datelist[0]}</div>
-          <div className="Temperature">23&deg;C</div>
+          <div className="Temperature">{temperature}&deg;C</div>
           <div className="Weather">Sunny</div>
           
           <div className="future">
