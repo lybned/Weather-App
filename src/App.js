@@ -16,6 +16,7 @@ function App() {
   const [latitude, setLatitude] = useState(0);
   const [magnitude, setMagnitude] = useState(0);
   const [temperature,setTemp] = useState(0);
+  const [key, setKey] = useState("Enter")
 
   function changeLat(location) {
     setLatitude(location)
@@ -29,6 +30,8 @@ function App() {
     setTemp(degrees)
   }  
 
+  
+
   const d = new Date();
   const datelist = [(d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear(), 
                     (d.getMonth()+1) + "/" + (d.getDate()+1) + "/" + d.getFullYear(),
@@ -38,29 +41,63 @@ function App() {
 
   {/* API call to the information for the location */}
   //console.log(`${api.url_Location}?q=Calgary&limit=5&appid=${api.key}`);
-  fetch(`${api.url_Location}?q=Calgary&limit=5&appid=${api.key}`)
-  .then(response => response.json())
-  .then(data => {
-    changeLat(data[0]["lat"]);
-    changeMag(data[0]["mag"]);
-  });
+  const keyPress = (event) =>
+  {
+    setKey(event.key);
+    
+    if (event.key == "Enter")
+    {
+      console.log(11);
+      fetch(`${api.url_Location}?q=Calgary&limit=5&appid=${api.key}`)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+        //Need to find a way to update thses immediately.
+        setLatitude(data[0]["lat"]);
+        setMagnitude(data[0]["lon"]);
+      }); 
+      
+      console.log(`${api.url_Weather}?lat=${latitude}&lon=${magnitude}&appid=${api.key}`, 'setMagnitude' );
+      //if (latitude != null && magnitude != null)
+      //{
+        console.log(22);
+        fetch(`${api.url_Weather}?lat=${latitude}&lon=${magnitude}&appid=${api.key}`)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + data["main"]["temp"]);
+          changeTemp((data["main"]["temp"]-273.15).toFixed(1));
+        });    
+      //}
+    }
+
+  };
+
 
 
   //console.log(`${api.url_Weather}?lat=${latitude}&lon=${magnitude}&appid=${api.key}`);
-  fetch(`${api.url_Weather}?lat=${latitude}&lon=${magnitude}&appid=${api.key}`)
-  .then(response => response.json())
-  .then(data => {
-    console.log(data);
-    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + data["main"]["temp"]);
-    changeTemp(data["main"]["temp"]);
-  });
-    
+  {/*if (latitude != null & magnitude != null)
+  {
+    fetch(`${api.url_Weather}?lat=${latitude}&lon=${magnitude}&appid=${api.key}`)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + data["main"]["temp"]);
+      setInfo(data);
+      //changeTemp(data["main"]["temp"]);
+    },
+    (error) => {
+      console.log(error);
+    });    
+  }
+*/}
+
 
   return (
     <div>
       <body>
         <div className="search">
-          <input type="test" placeholder="location..." className="search-bar"/>
+          <input type="test" placeholder="location..." className="search-bar" onKeyPress={(e) => keyPress(e)}/>
         </div>
 
         <div className="box">
@@ -80,6 +117,9 @@ function App() {
 
             <div className="futureWeather">
               <h3>{datelist[3]}</h3> <img className="WeatherIcon" src={logo} alt="Weather Icon"/>    <h7>Sunny <br /> 20&deg;C</h7>
+            </div>
+            <div>
+              <p>Current Key entered: {key}</p>
             </div>
           </div>
         </div>
