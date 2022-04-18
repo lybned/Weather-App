@@ -15,7 +15,8 @@ function App() {
 
 
   const [weatherInfo,setInfo] = useState(null);
-  const [key, setKey] = useState("Enter")
+  const [locationInfo, setLocationInfo] = useState(null);
+  const [key, setKey] = useState("")
 
 
 
@@ -46,10 +47,12 @@ function App() {
         //if we cannot find a location
         if (data != [])
         {
+          console.log(data);
+          setLocationInfo(data);
           const latitude = data[0].lat;
           const lontitude = data[0].lon;
 
-          //console.log(`${api.url_Weather}?lat=${latitude}&lon=${lontitude}&appid=${api.key}`, 'setMagnitude' );
+          console.log(`${api.url_Weather}?lat=${latitude}&lon=${lontitude}&appid=${api.key}`, 'setMagnitude' );
           //if (latitude != null && magnitude != null)
           //{
           //console.log(22);
@@ -63,6 +66,7 @@ function App() {
         }
         else
         {
+          setLocationInfo(null);
           setInfo(null);
         }
          
@@ -100,9 +104,11 @@ function App() {
         <div className="search">
           <input type="test" placeholder="location..." className="search-bar" onKeyPress={(e) => keyPress(e)}/>
         </div>
-      {(weatherInfo != null) ? (
+
+      {/* Only renders the page if the user entered a valid location*/}
+      {(weatherInfo != null && locationInfo != null) ? (
         <div className="box">
-          <div className="CityName">Calgary, Alberta</div>
+          <div className="CityName">{locationInfo[0].name}, {locationInfo[0].state}</div>
           <div className="Date">{datelist[0]}</div>
           <div className="Temperature">{weatherInfo.main.temp}&deg;C</div>
           <div className="Weather">{weatherInfo.weather[0].description}</div>
@@ -119,6 +125,8 @@ function App() {
             <div className="futureWeather">
               <h3>{datelist[3]}</h3> <img className="WeatherIcon" src={logo} alt="Weather Icon"/>    <h7>Sunny <br /> 20&deg;C</h7>
             </div>
+
+            {/*Used for testing, delete after testing is complete*/}
             <div>
               <p>Current Key entered: {key}</p>
             </div>
