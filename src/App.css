@@ -40,9 +40,19 @@ body{
 
 .Temperature{
   color:azure;
-  font-size: 90px;
+  font-size: 70px;
   font-weight: bolder;
   text-shadow:  3px 6px #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#today{
+  height : 100px;
+  width: 100px;
+  margin-top: 10px;
+
 }
 
 .Weather{
@@ -53,6 +63,11 @@ body{
   text-shadow:  3px 3px #000000;
 }
 
+img{
+  height : 50px;
+  width: 50px;
+}
+
 .future{
   text-align: center;
 }
@@ -61,7 +76,7 @@ body{
   display: inline-block ;
   height : 50px;
   width: 50px;
-  float: left;
+
 }
 
 
