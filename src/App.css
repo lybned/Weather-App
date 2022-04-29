@@ -84,7 +84,7 @@ img{
   border: 0px solid #466995 ;
   margin: 10px ;
   display: inline-block ;
-  text-align: right;
+  text-align: left;
 
 }
 
@@ -95,6 +95,10 @@ h6 {
 
 h7 {
   float: left;
+}
+
+h3 {
+  text-align: left;
 }
 
 /*

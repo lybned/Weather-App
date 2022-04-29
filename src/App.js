@@ -21,20 +21,21 @@ function App() {
   const [icon1, setIcon1] = useState("");
   const [buffer, setBuffer] = useState("");
   const [future, setFuture] = useState(null);
-
-
-
+  const [iconList, setIconList] = useState("");
+  //const [icon3, setIcon3] = useState("");
+  //const [icon4, setIcon4] = useState("");
 
 
   
 
-  const d = new Date();
-  const datelist = [(d.getMonth()+1) + "/" + d.getDate() + "/" + d.getFullYear(), 
-                    (d.getMonth()+1) + "/" + (d.getDate()+1) + "/" + d.getFullYear(),
-                    (d.getMonth()+1) + "/" + (d.getDate()+2) + "/" + d.getFullYear(),
-                    (d.getMonth()+1) + "/" + (d.getDate()+3) + "/" + d.getFullYear(),
-                    (d.getMonth()+1) + "/" + (d.getDate()+4) + "/" + d.getFullYear()];
-
+  let d = new Date();
+  let datelist = [((d.getMonth()+1) + "/" + (d.getDate()) + "/" + (d.getFullYear()))];
+  for (var i = 1; i<4 ; i++)
+  {
+    d.setDate(d.getDate() + 1);
+    datelist.push(((d.getMonth()+1) + "/" + (d.getDate()) + "/" + (d.getFullYear())));
+  }
+  console.log(datelist)
   {/* API call to the information for the location */}
   console.log(`${api.url_Location}?q=${buffer}&limit=5&appid=${api.key}`);
   const keyPress = (event) =>
@@ -75,6 +76,13 @@ function App() {
               console.log(`${api.future_forcast}?lat=${latitude}&lon=${lontitude}&units=metric&appid=${api.key}`);
               console.log(data);
               setFuture(data);
+              let list = []
+              for(var i = 1; i<4;i++)
+              {
+                list.push(`http://openweathermap.org/img/wn/${data.daily[i].weather[0].icon}.png`)
+              }
+              setIconList(list)
+              
             });
           });            
         }
@@ -131,22 +139,25 @@ function App() {
           
           <div className="future">
             <div className="futureWeather">
-              <h3>{datelist[1]}</h3> <img className="WeatherIcon" src={logo} alt="Weather Icon"/>    <h7>{future.daily[1].weather[0].main} <br /> 20&deg;C</h7>
+              <h3>{datelist[1]}</h3> <img className="WeatherIcon" src={iconList[0]} alt="Weather Icon"/>    
+              <h7>{future.daily[1].weather[0].main} <br /> {Math.round(future.daily[0].temp.max)}&deg;/{Math.round(future.daily[2].temp.min)}&deg;C</h7>
             </div>
 
             <div className="futureWeather">
-              <h3>{datelist[2]}</h3> <img className="WeatherIcon" src={logo} alt="Weather Icon"/>    <h7>{future.daily[2].weather[0].main} <br /> 20&deg;C</h7>
+              <h3>{datelist[2]}</h3> <img className="WeatherIcon" src={iconList[1]} alt="Weather Icon"/>    
+              <h7>{future.daily[2].weather[0].main} <br /> {Math.round(future.daily[1].temp.max)}&deg;/{Math.round(future.daily[2].temp.min)}&deg;C</h7>
             </div>
 
             <div className="futureWeather">
-              <h3>{datelist[3]}</h3> <img className="WeatherIcon" src={logo} alt="Weather Icon"/>    <h7>{future.daily[3].weather[0].main} <br /> 20&deg;C</h7>
+              <h3>{datelist[3]}</h3> <img className="WeatherIcon" src={iconList[2]} alt="Weather Icon"/>    
+              <h7>{future.daily[3].weather[0].main} <br /> {Math.round(future.daily[2].temp.max)}&deg;/{Math.round(future.daily[2].temp.min)}&deg;C</h7>
             </div>
 
-            {/*Used for testing, delete after testing is complete*/}
+            {/*Used for testing, delete after testing is complete
             <div>
               <p>Current Key entered: {key}</p>
               <p>Buff contains: {buffer}</p>
-            </div>
+            </div>*/}
           </div>
         </div>
 
