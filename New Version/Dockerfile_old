@@ -1,0 +1,26 @@
+# Stage 1: Build the React Frontend
+FROM node:latest as frontend-build
+WORKDIR /app
+COPY vite-project/package.json vite-project/package-lock.json ./vite-project/
+WORKDIR /app/vite-project
+RUN npm install
+COPY vite-project ./
+RUN npm run build
+
+# Stage 2: Build the ASP.NET Core Backend
+FROM mcr.microsoft.com/dotnet/sdk:6.0 as backend-build
+WORKDIR /app
+COPY Backend/WeatherBackend/*.csproj ./Backend/WeatherBackend/
+WORKDIR /app/Backend/WeatherBackend
+RUN dotnet restore
+COPY Backend/WeatherBackend ./
+RUN dotnet publish -c Release -o out
+
+# Stage 3: Combine Frontend and Backend into a Single Image
+FROM mcr.microsoft.com/dotnet/aspnet:6.0
+WORKDIR /app
+COPY --from=backend-build /app/Backend/WeatherBackend/out .
+# Adjust the path if needed
+COPY --from=frontend-build /app/vite-project/dist ./wwwroot  
+EXPOSE 5173
+CMD ["dotnet", "WeatherBackend.dll"]
