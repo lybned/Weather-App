@@ -4,6 +4,7 @@ import {useEffect, useState} from 'react';
 import {Input} from "@nextui-org/react";
 import axios from 'axios';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid'
+import toast, { Toaster } from 'react-hot-toast';
 
 interface CurrentWeather {
   dt: number;
@@ -104,12 +105,14 @@ interface WeatherData {
   daily: DailyForecast[];
 }
 
+const notify = (text : string) => toast(text);
+const base_url = "http://54.167.10.101:7000/"
 function App() {
   
   const [weatherInfo,setInfo] = useState<WeatherData>();
   const [location, setLocation] = useState("Calgary");
   const [locationState, setLocationState] = useState("Calgary, Alberta");
-  const [targetURL, setTargetURL] = useState(`https://localhost:7186/api/WeatherForecast/Weather?lon=-114.065465&lat=51.0460954`)
+  const [targetURL, setTargetURL] = useState(base_url + "api/WeatherForecast/Weather?lon=-114.065465&lat=51.0460954")
   const [loading, setLoading] = useState(true);
 
 
@@ -119,11 +122,11 @@ function App() {
   }
 
   const getLocationURL = () => {
-    return `https://localhost:7186/api/WeatherForecast/Location?q=${location}`
+    return base_url + `api/WeatherForecast/Location?q=${location}`
   }
 
   const getWeatherURL = (lat : string, lon : string) => {
-    return `https://localhost:7186/api/WeatherForecast/Weather?lat=${lat}&lon=${lon}`
+    return base_url + `api/WeatherForecast/Weather?lat=${lat}&lon=${lon}`
   }
 
   const getDate = (dateString : number) => {
@@ -138,19 +141,19 @@ function App() {
   useEffect(() => {
     axios.get(targetURL)
       .then(res => {
-        console.log(res)
+        //console.log(res)
         const persons = res.data;
         setInfo(persons);
-        console.log(persons)        
+        //console.log(persons)        
       })
 
     setLoading(false)
   },[targetURL])
 
   const changLocation = (e : React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter'){
-      //console.log(location)
-      setLoading(true)
+    //console.log(location)
+    if (e.key === 'Enter' && location.length > 0){
+      //
       const locationURL = getLocationURL();
       axios.get(locationURL)
       .then(res => {
@@ -165,6 +168,8 @@ function App() {
             setLocationState(locationData[0].name)
           }
           setTargetURL(weatherURL)
+        } else {
+          notify("Location does not exist!")
         }
       })
     }
@@ -174,7 +179,7 @@ function App() {
 
   return (
     <div id="outside">
-      { loading ? (<h1>Loading ... </h1>) : (
+      { loading ? (<h1 className="my-5 text-white">Loading ... </h1>) : (
         <div className="w-full flex flex-col justify-center items-center">
           <div className="flex items-center justify-center">
             <Input type="text" className="w-full my-4" label="Location" onKeyUp={changLocation} onValueChange={setLocation} description={<p className="text-white m-0">Press 'Enter' to get weather for the location.</p>} startContent={
@@ -223,7 +228,7 @@ function App() {
         </div>    
         )     
       }
-
+      <Toaster />
     </div>
 
   )
