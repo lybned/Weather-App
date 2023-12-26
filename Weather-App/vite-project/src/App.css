@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+#root{
+
+}
+
+html, body{
+  background-color: #20b5eb;
+   width:100%;
+  height:100%; 
+}
+
+.CityName{
+  color:azure;
+  font-size: 40px;
+  text-shadow:  2px 2px #000000;
+  font-weight: bolder;
+}
+
+.Date{
+  color:azure;
+  font-size: 30px;
+  font-weight: 200px;
+}
+
+.Temperature{
+  color:azure;
+  font-size: 70px;
+  font-weight: bolder;
+  text-shadow:  3px 6px #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Temperature2{
+  color:azure;
+  font-size: 40px;
+  font-weight: bolder;
+  text-shadow:  2px 4px #000000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Weather{
+  color:azure;
+  font-size: 40px;
+  font-weight: bolder;
+  text-shadow:  3px 3px #000000;
+}
+
+
+.currentBlock, .futureSection{
+  background-color:rgba(255,255,255,0.3)
+}
+
+
+#outside{
+  background-color: #20b5eb;
+}
+
+.futureBlocks{
+  background-color:rgba(255,255,255,0.3)
+}
+
+
+@media screen and (max-width: 450px) {
+
+  .Date{
+    font-size:8vw;
+  }
+
+  .Temperature{
+    font-size:16vw;
+  }
+
+  .Temperature2, .CityName, .Weather{
+    font-size:10vw;
+  }
+
+  .smallText{
+    font-size:3.5vw;
+  }
+}
