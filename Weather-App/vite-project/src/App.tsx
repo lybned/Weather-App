@@ -106,7 +106,7 @@ interface WeatherData {
 }
 
 const notify = (text : string) => toast(text);
-const base_url = "https://node-js-backend-idgrpi35p-lybneds-projects.vercel.app/"
+const base_url = "https://weather-app-api-nine.vercel.app/"
 function App() {
   
   const [weatherInfo,setInfo] = useState<WeatherData>();
