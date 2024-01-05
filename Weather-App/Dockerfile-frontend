@@ -7,7 +7,7 @@ WORKDIR /app
 COPY vite-project/package*.json ./
 
 # Install dependencies
-RUN npm update
+RUN npm install
 
 # Copy all the app files to the working directory
 COPY vite-project .

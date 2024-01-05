@@ -106,7 +106,7 @@ interface WeatherData {
 }
 
 const notify = (text : string) => toast(text);
-const base_url = "http://54.167.10.101:7000/"
+const base_url = "http://localhost:7000/"
 function App() {
   
   const [weatherInfo,setInfo] = useState<WeatherData>();
