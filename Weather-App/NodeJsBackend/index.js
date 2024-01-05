@@ -9,7 +9,7 @@ require("dotenv").config();
 
 app.use(cors(
   {
-    origin: ["https://weather-app-lemon-seven-73.vercel.app/"],
+    origin: ["https://weather-app-lemon-seven-73.vercel.app"],
     methods:["POST", "GET"],
     credentials:true 
   }
